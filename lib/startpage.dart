@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_supabase/forget_password.dart';
 import 'package:flutter_supabase/homepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,14 +39,13 @@ class _StartPageState extends State<StartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    width: 150,
-                    child: ClipOval(
-                      
-                      child: Image.network(
-                        'https://picsum.photos/id/237/200/300',
-                        height: 150.0,
-                      ),
+                  ClipOval(
+                    
+                    child: Image.network(
+                      'https://picsum.photos/id/237/200/300',
+                       height: 300.0,  // Increase the height
+   
+    
                     ),
                   ),
                   const SizedBox(height: 25.0),
@@ -73,7 +73,10 @@ class _StartPageState extends State<StartPage> {
                     decoration: const InputDecoration(label: Text("Password")),
                     obscureText: true,
                   ),
+                  TextButton(onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword())); },
+                  child: Text("Forgot Password")), 
                   const SizedBox(height: 25.0),
+
                   //Sign In Button
                  _signInLoading
     ? const Center(
@@ -134,8 +137,7 @@ class _StartPageState extends State<StartPage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-                  const Divider(),
-                  //SignUp Button
+                               //SignUp Button
                   _signInLoading
                       ? const Center(child: CircularProgressIndicator())
                       : OutlinedButton(
@@ -202,4 +204,5 @@ class _StartPageState extends State<StartPage> {
       ),
     );
   }
+  
 }
