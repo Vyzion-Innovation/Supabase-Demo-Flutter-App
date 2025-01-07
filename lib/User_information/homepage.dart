@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_supabase/add_data.dart';
+import 'package:flutter_supabase/User_information/add_data.dart';
 import 'package:flutter_supabase/startpage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

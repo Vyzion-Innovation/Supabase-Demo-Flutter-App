@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_supabase/homepage.dart';
+import 'package:flutter_supabase/User_information/homepage.dart';
+import 'package:flutter_supabase/Vehicle/home.dart';
 import 'package:flutter_supabase/main.dart';
 import 'package:flutter_supabase/startpage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,6 +36,6 @@ this page sets up a listener on the user's auth state using onAuthStateChange. *
   final SupabaseClient supabase = Supabase.instance.client;
   @override
   Widget build(BuildContext context) {
-    return _user == null ? StartPage() : HomePage();
+    return _user == null ? StartPage() : MainScreen();
   }
 }

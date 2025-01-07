@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_supabase/forget_password.dart';
-import 'package:flutter_supabase/homepage.dart';
+import 'package:flutter_supabase/User_information/homepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class StartPage extends StatefulWidget {
