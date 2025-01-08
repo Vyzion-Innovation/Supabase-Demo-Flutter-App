@@ -36,7 +36,7 @@ class _VehicleCategoryScreenState extends State<VehicleCategoryScreen> {
       appBar: AppBar(
         title: Text('Vehicle Management'),
       ),
-     body: ListView.builder(
+      body: ListView.builder(
         itemCount: vehicles.length,
         itemBuilder: (context, index) {
           final vehicle = vehicles[index];
@@ -75,8 +75,9 @@ class _VehicleCategoryScreenState extends State<VehicleCategoryScreen> {
                       fontSize: 14,
                       color: Colors.black54,
                     ),
-                  ),   SizedBox(height: 4),
-                   Text(
+                  ),
+                  SizedBox(height: 4),
+                  Text(
                     'Description: ${vehicle.description.toString()}',
                     style: TextStyle(
                       fontSize: 14,
@@ -92,63 +93,107 @@ class _VehicleCategoryScreenState extends State<VehicleCategoryScreen> {
                     ),
                   ),
                   SizedBox(height: 4),
-                  // CircleAvatar(child: Image.network(vehicle.vehicleImage,fit: BoxFit.scaleDown,)),
-                  Text(
-                    'image: ${vehicle.vehicleImage}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54,
-                    ),
-                  ),
-                
+                  if (vehicle.vehicleImage != null && vehicle.vehicleImage!.isNotEmpty) ...[
+                  CircleAvatar(child: Image.network(vehicle.vehicleImage ?? '',fit: BoxFit.scaleDown,)),
+                  ],
                  
                 ],
               ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+              trailing: SizedBox(
+             
+              width: 100,  // Give explicit width to trailing area
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () {
-                        // Edit vehicle logic here
+                    child: GestureDetector(
+                      onTap: () async {
+                         final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AddCategoryScreen(data: vehicle)),
+                          );
+                          if (result != null && result == true) {
+                            await _fetchVehicles(); // Reload data
+                          }
                         print('Edit vehicle ${vehicle.id}');
                       },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.blue,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 16),
                   Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        // Delete vehicle logic here
+                    child: GestureDetector(
+                      onTap: () async {
+                       await _showMyDialog(vehicle.id!);
+                       await _fetchVehicles();
                         print('Delete vehicle ${vehicle.id}');
                       },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+            ),
           );
         },
       ),
-    
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-         Navigator.push(
-  context,
-  MaterialPageRoute(builder: (context) => AddCategoryScreen()),
-).then((value) {
-  if (value != null && value == true) {
-    // If the result is true, refresh the data
-    _fetchVehicles(); // Fetch and update UI
-  }
-});
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddCategoryScreen()),
+          ).then((value) {
+            if (value != null && value == true) {
+              // If the result is true, refresh the data
+              _fetchVehicles(); // Fetch and update UI
+            }
+          });
         },
         child: Icon(Icons.add),
       ),
     );
   }
+  Future<void> _showMyDialog(int id) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Do you really want to delete?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () async {
+              // Perform deletion and fetch updated data
+              await VehicleCategory.deleteCategory(id);
+              Navigator.of(context).pop();
+            
+            },
+          ),
+          TextButton(
+            child: const Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 }

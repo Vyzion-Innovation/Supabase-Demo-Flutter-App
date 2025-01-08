@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_supabase/Vehicle/home.dart';
 import 'package:flutter_supabase/forget_password.dart';
 import 'package:flutter_supabase/User_information/homepage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -78,11 +79,7 @@ class _StartPageState extends State<StartPage> {
                   const SizedBox(height: 25.0),
 
                   //Sign In Button
-                 _signInLoading
-    ? const Center(
-        child: CircularProgressIndicator(),
-      )
-    : ElevatedButton(
+                  ElevatedButton(
         onPressed: () async {
           final isValid = _formKey.currentState?.validate();
           if (isValid != true) {
@@ -108,7 +105,7 @@ class _StartPageState extends State<StartPage> {
               // Navigate to HomePage or next screen
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => MainScreen()),
               );
             } else {
               // Failed sign-in

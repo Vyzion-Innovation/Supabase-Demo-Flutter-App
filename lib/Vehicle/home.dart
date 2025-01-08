@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_supabase/Vehicle/screens/category/category.dart';
 import 'package:flutter_supabase/Vehicle/screens/vehicle/vehicle_screen.dart';
+import 'package:flutter_supabase/startpage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -8,6 +10,24 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vehicle Management'),
+          actions: <Widget>[
+             IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.black,
+              ),
+              onPressed: () async {
+               await Supabase.instance.client.auth.signOut();
+                Navigator.of(context).push(
+            MaterialPageRoute(
+              settings: RouteSettings(name: "/Page1"),
+              builder: (context) => StartPage(),
+            ),
+          );
+
+              },
+            ),
+          ]
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

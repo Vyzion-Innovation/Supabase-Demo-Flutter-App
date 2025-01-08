@@ -5,21 +5,21 @@ class VehicleCategory {
   final String vehicleName;
   final String vehicleCategory;
   final String description;
-  final String vehicleImage;
-   final int vehiclePrice;
+  String? vehicleImage;
+  final int vehiclePrice;
 
   VehicleCategory({
     this.id,
     required this.vehicleName,
     required this.vehicleCategory,
     required this.description,
-    required this.vehicleImage,
-     required this.vehiclePrice,
+    this.vehicleImage,
+    required this.vehiclePrice,
   });
 
   Map<String, dynamic> toMap() {
     return {
-           'vehicle_name': vehicleName,
+      'vehicle_name': vehicleName,
       'vehicle_category': vehicleCategory,
       'description': description,
       'vehicle_image': vehicleImage,
@@ -34,21 +34,22 @@ class VehicleCategory {
       vehicleCategory: map['vehicle_category'],
       description: map['description'],
       vehicleImage: map['vehicle_image'],
-       vehiclePrice: map['vechile_price'],
+      vehiclePrice: map['vechile_price'],
     );
   }
 
   static Future<List<VehicleCategory>> fetchAllCategories() async {
-    final response = await Supabase.instance.client
-        .from('vehicle_category')
-        .select();
+    final response =
+        await Supabase.instance.client.from('vehicle_category').select();
 
     // if (response.error != null) {
     //   throw Exception('Failed to fetch vehicle categories');
     // }
 
     final List categories = response as List;
-    return categories.map((category) => VehicleCategory.fromMap(category)).toList();
+    return categories
+        .map((category) => VehicleCategory.fromMap(category))
+        .toList();
   }
 
   static Future<void> insertCategory(VehicleCategory category) async {
@@ -78,8 +79,6 @@ class VehicleCategory {
         .delete()
         .eq('id', id);
 
-    if (response.error != null) {
-      throw Exception('Failed to delete vehicle category');
-    }
+   
   }
 }

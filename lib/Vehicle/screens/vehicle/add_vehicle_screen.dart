@@ -5,7 +5,6 @@ class AddVehicleScreen extends StatefulWidget {
   Vehicle? data;
 
   AddVehicleScreen({super.key, this.data});
-  
 
   @override
   _AddVehicleScreenState createState() => _AddVehicleScreenState();
@@ -19,25 +18,24 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   final _vehicleLicesnsePlateController = TextEditingController();
   final _vehicleColorController = TextEditingController();
   final _vehicleYearofregController = TextEditingController();
- Vehicle? vehicleData;
+  Vehicle? vehicleData;
   bool isForEdit = false;
-  
 
   // Add other controllers for fields
-   @override
+  @override
   void initState() {
-  super.initState();
-  if (widget.data != null) {
-    isForEdit = true;
-    vehicleData = widget.data!;
-    _vehicleCompanyController.text = vehicleData!.vehicleCompany;
-    _vehicleModelController.text = vehicleData!.vehicleModel;
-    _vehicleOwnerController.text = vehicleData!.vehicleOwner;
-    _vehicleLicesnsePlateController.text = vehicleData!.licensePlate;
-    _vehicleColorController.text = vehicleData!.vehicleColor;
-    _vehicleYearofregController.text = vehicleData!.yearOfReg;
+    super.initState();
+    if (widget.data != null) {
+      isForEdit = true;
+      vehicleData = widget.data!;
+      _vehicleCompanyController.text = vehicleData!.vehicleCompany;
+      _vehicleModelController.text = vehicleData!.vehicleModel;
+      _vehicleOwnerController.text = vehicleData!.vehicleOwner;
+      _vehicleLicesnsePlateController.text = vehicleData!.licensePlate;
+      _vehicleColorController.text = vehicleData!.vehicleColor;
+      _vehicleYearofregController.text = vehicleData!.yearOfReg;
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +59,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   return null;
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _vehicleModelController,
                 decoration: InputDecoration(labelText: 'Vehicle Model'),
                 validator: (value) {
@@ -71,7 +69,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   return null;
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _vehicleOwnerController,
                 decoration: InputDecoration(labelText: 'Vehicle owner'),
                 validator: (value) {
@@ -81,7 +79,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   return null;
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _vehicleLicesnsePlateController,
                 decoration: InputDecoration(labelText: 'Vehicle license plate'),
                 validator: (value) {
@@ -91,7 +89,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   return null;
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _vehicleColorController,
                 decoration: InputDecoration(labelText: 'Vehicle color'),
                 validator: (value) {
@@ -101,13 +99,14 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   return null;
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _vehicleYearofregController,
                 decoration: InputDecoration(
                   labelText: 'Vehicle Year of Registration',
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
-                readOnly: true, // Make the TextField read-only so users can't type in it
+                readOnly:
+                    true, // Make the TextField read-only so users can't type in it
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please select a vehicle year of registration';
@@ -123,20 +122,23 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
               Container(
                 margin: const EdgeInsets.only(top: 16.0),
                 width: double.infinity,
-           
                 child: ElevatedButton(
-                  
                   onPressed: () {
                     print(isForEdit);
                     if (_formKey.currentState?.validate() ?? false) {
                       Vehicle newVehicle = Vehicle(
                         vehicleCompany: _vehicleCompanyController.text,
-                        vehicleModel: _vehicleModelController.text, vehicleOwner: _vehicleOwnerController.text,
-                         licensePlate: _vehicleLicesnsePlateController.text.toUpperCase(), vehicleColor: _vehicleColorController.text, yearOfReg: _vehicleYearofregController.text,
+                        vehicleModel: _vehicleModelController.text,
+                        vehicleOwner: _vehicleOwnerController.text,
+                        licensePlate:
+                            _vehicleLicesnsePlateController.text.toUpperCase(),
+                        vehicleColor: _vehicleColorController.text,
+                        yearOfReg: _vehicleYearofregController.text,
                         // Add other fields...
                       );
-                   isForEdit ? Vehicle.updateVehicle(vehicleData?.id, newVehicle) :
-                      Vehicle.insertVehicle(newVehicle);
+                      isForEdit
+                          ? Vehicle.updateVehicle(vehicleData?.id, newVehicle)
+                          : Vehicle.insertVehicle(newVehicle);
                       Navigator.pop(context, true);
                     }
                   },
@@ -149,7 +151,8 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
       ),
     );
   }
-   Future<void> _selectYearOfReg(BuildContext context) async {
+
+  Future<void> _selectYearOfReg(BuildContext context) async {
     // Show the date picker
     final DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -161,7 +164,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
     if (selectedDate != null && selectedDate != DateTime.now()) {
       // If the user selects a date, format it as a string and set it in the controller
       setState(() {
-        _vehicleYearofregController.text = 
+        _vehicleYearofregController.text =
             "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
       });
     }

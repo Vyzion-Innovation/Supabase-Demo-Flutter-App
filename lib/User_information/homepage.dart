@@ -176,8 +176,9 @@ class _HomePageState extends State<HomePage>  {
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                _showMyDialog(data['id']);
+                              onPressed: () async {
+                               await _showMyDialog(data['id']);
+                                  Navigator.of(context).pop();
                                       },                                                          
                             ),
                           ],
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage>  {
             onPressed: () async {
               // Perform deletion and fetch updated data
               await deleteData(id);
-              Navigator.of(context).pop();
+            
             
             },
           ),
